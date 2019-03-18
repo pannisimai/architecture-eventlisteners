@@ -3,10 +3,16 @@ import Storage from "./Storage";
 
 const noteStorage = new Storage("myAwesomeNote");
 
+noteStorage.on("addItem", note => {
+  noteStorage.addDataSet(note);
+});
+
+noteStorage.on("updated", notes => {
+  renderNotes(notes);
+});
+
 //helper
 const $ = selector => document.querySelector(selector);
-
-const noteStorageKey = "myAwesomeNote";
 
 const addNoteInput = $("#add-note");
 const addNoteButton = $("#add-note-button");
@@ -14,21 +20,19 @@ const noteContainer = $("#notes");
 
 addNoteButton.addEventListener("click", e => {
   const note = addNoteInput.value;
-  noteStorage.save(note);
-  renderNotes(note);
+  if (notes) {
+    noteStorage.emit("addItem", note);
+    addNoteInput.value = "";
+  }
 });
 
-const renderNotes = note => {
-  const templateOfNote = `
-  <div class="note col-lg-4">
+const renderNotes = notes => {
+  noteContainer.innerHTML = notes
+    .map(note => {
+      return `
+    <div class="note col-lg-4">
   ${note}
-  </div>
-  `;
-  noteContainer.innerHTML = templateOfNote;
+  </div>`;
+    })
+    .join("");
 };
-
-renderNotes(noteStorage.get());
-
-//localstorage wrapper
-// save Array -> transform: string -> localstorage.setItem
-// get Arrays -> localstorage.getItem -> transform: Array
