@@ -7,5 +7,32 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
 
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="add-note">Add Note</label>
+            <input
+              type="text"
+              class="form-control"
+              id="add-note"
+              placeholder="Add your note here"
+            />
+            <small id="emailHelp" class="form-text text-muted"
+              >We'll never share your email with anyone else.</small
+            >
+          </div>
+
+          <button id="add-note-button" type="button" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div id="notes" class="row">
+        <div class="note col-lg-4">Example</div>
+      </div>
+    </div>
+  </body>
 </html>
