@@ -98,9 +98,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Storage = function Storage() {
-  _classCallCheck(this, Storage);
-};
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Storage =
+/*#__PURE__*/
+function () {
+  function Storage(localStorageKey) {
+    _classCallCheck(this, Storage);
+
+    this.key = localStorageKey;
+  }
+
+  _createClass(Storage, [{
+    key: "save",
+    value: function save(ele) {
+      localStorage.setItem(this.key, ele);
+    }
+  }, {
+    key: "get",
+    value: function get() {
+      return localStorage.getItem(this.key);
+    }
+  }]);
+
+  return Storage;
+}();
 
 
 
@@ -119,7 +143,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Storage */ "./src/assets/js/Storage.js");
 
- //helper
+
+var noteStorage = new _Storage__WEBPACK_IMPORTED_MODULE_1__["default"]("myAwesomeNote"); //helper
 
 var $ = function $(selector) {
   return document.querySelector(selector);
@@ -131,7 +156,7 @@ var addNoteButton = $("#add-note-button");
 var noteContainer = $("#notes");
 addNoteButton.addEventListener("click", function (e) {
   var note = addNoteInput.value;
-  localStorage.setItem(noteStorageKey, note);
+  noteStorage.save(note);
   renderNotes(note);
 });
 
@@ -140,7 +165,7 @@ var renderNotes = function renderNotes(note) {
   noteContainer.innerHTML = templateOfNote;
 };
 
-renderNotes(localStorage.getItem(noteStorageKey)); //localstorage wrapper
+renderNotes(noteStorage.get()); //localstorage wrapper
 // save Array -> transform: string -> localstorage.setItem
 // get Arrays -> localstorage.getItem -> transform: Array
 
