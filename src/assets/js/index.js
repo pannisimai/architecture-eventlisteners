@@ -1,7 +1,10 @@
 import "@scss/styles.scss";
+import Storage from "./Storage";
 
 //helper
 const $ = selector => document.querySelector(selector);
+
+const noteStorageKey = "myAwesomeNote";
 
 const addNoteInput = $("#add-note");
 const addNoteButton = $("#add-note-button");
@@ -9,7 +12,8 @@ const noteContainer = $("#notes");
 
 addNoteButton.addEventListener("click", e => {
   const note = addNoteInput.value;
-  localStorage.setItem("myAwesomeNote", note);
+  localStorage.setItem(noteStorageKey, note);
+  renderNotes(note);
 });
 
 const renderNotes = note => {
@@ -21,4 +25,8 @@ const renderNotes = note => {
   noteContainer.innerHTML = templateOfNote;
 };
 
-renderNotes("this a test");
+renderNotes(localStorage.getItem(noteStorageKey));
+
+//localstorage wrapper
+// save Array -> transform: string -> localstorage.setItem
+// get Arrays -> localstorage.getItem -> transform: Array

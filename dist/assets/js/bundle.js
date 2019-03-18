@@ -86,6 +86,26 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/assets/js/Storage.js":
+/*!**********************************!*\
+  !*** ./src/assets/js/Storage.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Storage = function Storage() {
+  _classCallCheck(this, Storage);
+};
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/index.js":
 /*!********************************!*\
   !*** ./src/assets/js/index.js ***!
@@ -97,18 +117,22 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @scss/styles.scss */ "./src/assets/scss/styles.scss");
 /* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Storage */ "./src/assets/js/Storage.js");
+
  //helper
 
 var $ = function $(selector) {
   return document.querySelector(selector);
 };
 
+var noteStorageKey = "myAwesomeNote";
 var addNoteInput = $("#add-note");
 var addNoteButton = $("#add-note-button");
 var noteContainer = $("#notes");
 addNoteButton.addEventListener("click", function (e) {
   var note = addNoteInput.value;
-  localStorage.setItem("myAwesomeNote", note);
+  localStorage.setItem(noteStorageKey, note);
+  renderNotes(note);
 });
 
 var renderNotes = function renderNotes(note) {
@@ -116,7 +140,9 @@ var renderNotes = function renderNotes(note) {
   noteContainer.innerHTML = templateOfNote;
 };
 
-renderNotes("this a test");
+renderNotes(localStorage.getItem(noteStorageKey)); //localstorage wrapper
+// save Array -> transform: string -> localstorage.setItem
+// get Arrays -> localstorage.getItem -> transform: Array
 
 /***/ }),
 
