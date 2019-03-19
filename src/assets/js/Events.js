@@ -1,4 +1,4 @@
-//events - a super-basic Javascript (publish subscribe) patter
+//events - a super-basic Javascript (publish subscribe) pattern
 
 export default class Event {
   constructor() {
