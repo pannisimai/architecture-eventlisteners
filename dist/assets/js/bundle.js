@@ -86,6 +86,66 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/os-browserify/browser.js":
+/*!***********************************************!*\
+  !*** ./node_modules/os-browserify/browser.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.endianness = function () { return 'LE' };
+
+exports.hostname = function () {
+    if (typeof location !== 'undefined') {
+        return location.hostname
+    }
+    else return '';
+};
+
+exports.loadavg = function () { return [] };
+
+exports.uptime = function () { return 0 };
+
+exports.freemem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.totalmem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.cpus = function () { return [] };
+
+exports.type = function () { return 'Browser' };
+
+exports.release = function () {
+    if (typeof navigator !== 'undefined') {
+        return navigator.appVersion;
+    }
+    return '';
+};
+
+exports.networkInterfaces
+= exports.getNetworkInterfaces
+= function () { return {} };
+
+exports.arch = function () { return 'javascript' };
+
+exports.platform = function () { return 'browser' };
+
+exports.tmpdir = exports.tmpDir = function () {
+    return '/tmp';
+};
+
+exports.EOL = '\n';
+
+exports.homedir = function () {
+	return '/'
+};
+
+
+/***/ }),
+
 /***/ "./src/assets/js/Events.js":
 /*!*********************************!*\
   !*** ./src/assets/js/Events.js ***!
@@ -160,7 +220,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "noteStorage", function() { return noteStorage; });
 /* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Events */ "./src/assets/js/Events.js");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper */ "./src/assets/js/helper.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helper */ "./src/assets/js/helper.js");
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! os */ "./node_modules/os-browserify/browser.js");
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(os__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -185,6 +247,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Storage =
 /*#__PURE__*/
 function (_MyNiceEvents) {
@@ -204,8 +267,31 @@ function (_MyNiceEvents) {
   _createClass(Storage, [{
     key: "addDataSet",
     value: function addDataSet(dataParameter) {
-      this.data.push(dataParameter);
-      this.emit("updated", this.data);
+      //this is data -> push to this.data array the new note
+      this.data.push(dataParameter); // we update the uo with the new this.data
+
+      this.emit("updated", this.data); // update local storage
+
+      this.save();
+    }
+  }, {
+    key: "removeDataSet",
+    value: function removeDataSet(dataParameter) {
+      // console.log(`ok remove it ${dataParameter}`);
+      // console.log(`${this.data}`);
+      //DELETE WITH SPLICE
+      // const indexNumber = Number(dataParameter);
+      // this.data.splice(indexNumber, 1);
+      //DELETE WITH FILTER
+      var arrayed = Array.from(this.data);
+      this.data = arrayed.filter(function (item, index) {
+        return index != dataParameter;
+      });
+      console.log(this.data); //remove from this.data
+      // we update the ui with the new this.data
+
+      this.emit("updated", this.data); // // update local storage
+
       this.save();
     }
   }, {
@@ -242,7 +328,10 @@ noteStorage.on("addItem", function (note) {
   noteStorage.addDataSet(note);
 });
 noteStorage.on("updated", function (notes) {
-  Object(_helper__WEBPACK_IMPORTED_MODULE_2__["renderNotes"])(notes);
+  Object(_helper__WEBPACK_IMPORTED_MODULE_1__["renderNotes"])(notes);
+});
+noteStorage.on("removeItem", function (note) {
+  noteStorage.removeDataSet(note);
 });
 noteStorage.initFinished();
 
@@ -260,19 +349,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "$", function() { return $; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "domElements", function() { return domElements; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderNotes", function() { return renderNotes; });
-// Helper
+/* harmony import */ var _Storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Storage */ "./src/assets/js/Storage.js");
+ // Helper
+
 var $ = function $(selector) {
   return document.querySelector(selector);
 };
 var domElements = {
   addNoteInput: $("#add-note"),
   addNoteButton: $("#add-note-button"),
-  noteContainer: $("#notes")
+  noteContainer: $("#notes"),
+  NoteDiv: null
 };
 var renderNotes = function renderNotes(notes) {
-  domElements.noteContainer.innerHTML = notes.map(function (note) {
-    return "\n        <div class=\"note col-lg-4\">\n          ".concat(note, "\n        </div>\n      ");
+  domElements.noteContainer.innerHTML = notes.map(function (note, index) {
+    console.log(index);
+    return "\n        <div class=\"note col-lg-4\" id=".concat(index, ">\n          ").concat(note, "\n        </div>\n      ");
   }).join("");
+  domElements.NoteDiv = document.querySelectorAll(".note");
+  targetNotes();
+};
+
+var targetNotes = function targetNotes() {
+  if (domElements.NoteDiv !== null) domElements.NoteDiv.forEach(function (oneDiv) {
+    oneDiv.addEventListener("click", function () {
+      var id = event.target.id;
+      _Storage__WEBPACK_IMPORTED_MODULE_0__["noteStorage"].emit("removeItem", id);
+    });
+  });
 };
 
 /***/ }),
@@ -289,12 +393,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @scss/styles.scss */ "./src/assets/scss/styles.scss");
 /* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Storage */ "./src/assets/js/Storage.js");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper */ "./src/assets/js/helper.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper */ "./src/assets/js/helper.js");
 
 
 
-var addNoteButton = _helper__WEBPACK_IMPORTED_MODULE_3__["domElements"].addNoteButton,
-    addNoteInput = _helper__WEBPACK_IMPORTED_MODULE_3__["domElements"].addNoteInput;
+var addNoteButton = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].addNoteButton,
+    addNoteInput = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].addNoteInput,
+    noteDiv = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].noteDiv;
 addNoteButton.addEventListener("click", function () {
   var note = addNoteInput.value;
 
