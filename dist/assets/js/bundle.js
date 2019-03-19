@@ -416,9 +416,9 @@ addNoteButton.addEventListener("click", function () {
   !*** ./src/assets/scss/styles.scss ***!
   \*************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// extracted by mini-css-extract-plugin
+throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/src/index.js):\nSyntaxError\n\n(4:6) Unknown word\n\n \u001b[90m 2 | \u001b[39m\n \u001b[90m 3 | \u001b[39m// body \u001b[33m{\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 4 | \u001b[39m//   background-image\u001b[33m:\u001b[39m \u001b[36murl\u001b[39m\u001b[36m(\u001b[39m\u001b[32m\"../img/kitty.png\"\u001b[39m\u001b[36m)\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m   | \u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 5 | \u001b[39m// \u001b[33m}\u001b[39m\n \u001b[90m 6 | \u001b[39m\u001b[33m.note\u001b[39m \u001b[33m{\u001b[39m\n\n    at runLoaders (/home/deci-pc-ubuntu54/Development/JS/architecture-eventlisteners/node_modules/webpack/lib/NormalModule.js:301:20)\n    at /home/deci-pc-ubuntu54/Development/JS/architecture-eventlisteners/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /home/deci-pc-ubuntu54/Development/JS/architecture-eventlisteners/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/home/deci-pc-ubuntu54/Development/JS/architecture-eventlisteners/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at Promise.resolve.then.then.catch (/home/deci-pc-ubuntu54/Development/JS/architecture-eventlisteners/node_modules/postcss-loader/src/index.js:207:9)");
 
 /***/ })
 

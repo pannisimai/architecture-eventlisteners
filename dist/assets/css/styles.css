@@ -7020,10 +7020,39 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
+body {
+  background-image: url("/dist/assets/img/kitty.png"); }
+
 .note {
   margin: 8px;
   padding: 8px;
-  background-color: #f2f6c1; }
+  background-color: #f2f6c1;
+  cursor: crosshair; }
+
+label {
+  font-size: 70px;
+  font-family: "Lilita One", cursive;
+  padding: 10px; }
+
+.form-control {
+  padding: 20px;
+  width: 600px; }
+
+.col-12 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center; }
+
+.button {
+  padding: 20px; }
 
 
 /*# sourceMappingURL=styles.css.map*/
