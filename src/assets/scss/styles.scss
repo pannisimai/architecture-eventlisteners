@@ -1,11 +1,12 @@
 @import "~bootstrap/scss/bootstrap";
 
-// body {
-//   background-image: url("../img/kitty.png");
-// }
+body {
+  background-image: url("../img/kitty.png");
+}
 .note {
   margin: 8px;
   padding: 8px;
+
   background-color: #f2f6c1;
   cursor: crosshair;
 }
@@ -30,4 +31,13 @@ label {
 
 .button {
   padding: 20px;
+}
+
+#notes {
+  background: pink;
+  opacity: 0.9;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }

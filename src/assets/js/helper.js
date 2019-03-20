@@ -7,15 +7,15 @@ export const domElements = {
   addNoteInput: $("#add-note"),
   addNoteButton: $("#add-note-button"),
   noteContainer: $("#notes"),
+  deleteNoteButton: $("#delete-note-button"),
   NoteDiv: null
 };
 
 export const renderNotes = notes => {
   domElements.noteContainer.innerHTML = notes
     .map((note, index) => {
-      console.log(index);
       return `
-        <div class="note col-lg-4" id=${index}>
+        <div class="note col-sm-3" id=${index}>
           ${note}
         </div>
       `;
@@ -25,6 +25,7 @@ export const renderNotes = notes => {
   domElements.NoteDiv = document.querySelectorAll(".note");
 
   targetNotes();
+  deleteButton();
 };
 
 const targetNotes = () => {
@@ -35,4 +36,10 @@ const targetNotes = () => {
         noteStorage.emit("removeItem", id);
       });
     });
+};
+
+const deleteButton = () => {
+  deleteNoteButton.addEventListener("click", () => {
+    RemoveAll();
+  });
 };

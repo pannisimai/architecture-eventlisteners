@@ -45,12 +45,19 @@ export default class Storage extends MyNiceEvents {
     this.save();
   }
 
+  RemoveAll(dataParameter) {
+    this.data = [];
+    this.emit("updated", this.data);
+    // // update local storage
+    this.save();
+  }
+
   save() {
     // have access to current data
     const data = this.data;
     // transform to string
     const stringified = JSON.stringify(data);
-    // save to locaStorage
+    // save to localStorage
     window.localStorage.setItem(this.key, stringified);
   }
 
@@ -78,6 +85,10 @@ noteStorage.on("updated", notes => {
 
 noteStorage.on("removeItem", note => {
   noteStorage.removeDataSet(note);
+});
+
+noteStorage.on("removeAll", notes => {
+  noteStorage.RemoveAll(notes);
 });
 
 noteStorage.initFinished();
