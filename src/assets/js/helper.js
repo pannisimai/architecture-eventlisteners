@@ -25,7 +25,6 @@ export const renderNotes = notes => {
   domElements.NoteDiv = document.querySelectorAll(".note");
 
   targetNotes();
-  deleteButton();
 };
 
 const targetNotes = () => {
@@ -36,10 +35,4 @@ const targetNotes = () => {
         noteStorage.emit("removeItem", id);
       });
     });
-};
-
-const deleteButton = () => {
-  deleteNoteButton.addEventListener("click", () => {
-    RemoveAll();
-  });
 };

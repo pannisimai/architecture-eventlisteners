@@ -36,7 +36,6 @@ export default class Storage extends MyNiceEvents {
     this.data = arrayed.filter((item, index) => {
       return index != dataParameter;
     });
-    console.log(this.data);
 
     //remove from this.data
     // we update the ui with the new this.data
@@ -45,10 +44,10 @@ export default class Storage extends MyNiceEvents {
     this.save();
   }
 
-  RemoveAll(dataParameter) {
+  removeAll(dataParameter) {
     this.data = [];
+
     this.emit("updated", this.data);
-    // // update local storage
     this.save();
   }
 
@@ -87,8 +86,8 @@ noteStorage.on("removeItem", note => {
   noteStorage.removeDataSet(note);
 });
 
-noteStorage.on("removeAll", notes => {
-  noteStorage.RemoveAll(notes);
+noteStorage.on("removeAll", () => {
+  noteStorage.removeAll();
 });
 
 noteStorage.initFinished();

@@ -286,8 +286,7 @@ function (_MyNiceEvents) {
       var arrayed = Array.from(this.data);
       this.data = arrayed.filter(function (item, index) {
         return index != dataParameter;
-      });
-      console.log(this.data); //remove from this.data
+      }); //remove from this.data
       // we update the ui with the new this.data
 
       this.emit("updated", this.data); // // update local storage
@@ -295,11 +294,10 @@ function (_MyNiceEvents) {
       this.save();
     }
   }, {
-    key: "RemoveAll",
-    value: function RemoveAll(dataParameter) {
+    key: "removeAll",
+    value: function removeAll(dataParameter) {
       this.data = [];
-      this.emit("updated", this.data); // // update local storage
-
+      this.emit("updated", this.data);
       this.save();
     }
   }, {
@@ -341,8 +339,8 @@ noteStorage.on("updated", function (notes) {
 noteStorage.on("removeItem", function (note) {
   noteStorage.removeDataSet(note);
 });
-noteStorage.on("removeAll", function (notes) {
-  noteStorage.RemoveAll(notes);
+noteStorage.on("removeAll", function () {
+  noteStorage.removeAll();
 });
 noteStorage.initFinished();
 
@@ -379,7 +377,6 @@ var renderNotes = function renderNotes(notes) {
   }).join("");
   domElements.NoteDiv = document.querySelectorAll(".note");
   targetNotes();
-  deleteButton();
 };
 
 var targetNotes = function targetNotes() {
@@ -388,12 +385,6 @@ var targetNotes = function targetNotes() {
       var id = event.target.id;
       _Storage__WEBPACK_IMPORTED_MODULE_0__["noteStorage"].emit("removeItem", id);
     });
-  });
-};
-
-var deleteButton = function deleteButton() {
-  deleteNoteButton.addEventListener("click", function () {
-    RemoveAll();
   });
 };
 
@@ -417,7 +408,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var addNoteButton = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].addNoteButton,
     addNoteInput = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].addNoteInput,
-    noteDiv = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].noteDiv;
+    noteDiv = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].noteDiv,
+    deleteNoteButton = _helper__WEBPACK_IMPORTED_MODULE_2__["domElements"].deleteNoteButton;
 addNoteButton.addEventListener("click", function () {
   var note = addNoteInput.value;
 
@@ -425,6 +417,19 @@ addNoteButton.addEventListener("click", function () {
     _Storage__WEBPACK_IMPORTED_MODULE_1__["noteStorage"].emit("addItem", note);
     addNoteInput.value = "";
   }
+});
+addNoteInput.addEventListener("keyup", function (e) {
+  var note = addNoteInput.value;
+
+  if (note) {
+    if (e.keyCode === 13) {
+      _Storage__WEBPACK_IMPORTED_MODULE_1__["noteStorage"].emit("addItem", note);
+      addNoteInput.value = "";
+    }
+  }
+});
+deleteNoteButton.addEventListener("click", function () {
+  _Storage__WEBPACK_IMPORTED_MODULE_1__["noteStorage"].emit("removeAll");
 });
 
 /***/ }),
