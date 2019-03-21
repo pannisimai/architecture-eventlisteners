@@ -17,6 +17,7 @@ export const renderNotes = notes => {
       return `
         <div class="note col-sm-3" id=${index}>
           ${note}
+          <i class="fas fa-times"></i>
         </div>
       `;
     })
