@@ -1,6 +1,6 @@
 # Architecture with Eventlisteners
 
-A to-do li using vanilla JavaScript.
+A to-do list using vanilla JavaScript.
 
 ## Features
 
